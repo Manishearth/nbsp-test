@@ -1,0 +1,106 @@
+<!doctype html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+
+</head>
+
+
+<body>
+
+
+Shows rendering of combining marks with various spacing marks in various conditions. The four marks chosen are:
+
+<ul>
+    <li> The simple <code>U+09BE BENGALI VOWEL SIGN AA</code> (&nbsp;&#x09be;)</li>
+    <li> The two-part <code>U+09CB BENGALI VOWEL SIGN O</code>(&nbsp;&#x09cb;)</li>
+    <li> A jophola, which is a special postfix form of <code>U+09AF BENGALI LETTER YA</code> created by preceding it with a <code>U+09CD BENGALI SIGN VIRAMA</code> (&nbsp;&#x09cd;&#x09af;)</li>
+    <li> A normal acute accent, which has no spacing of its own <code>U+0301 COMBINING ACUTE ACCENT</code></li>
+</ul>
+
+For each way of doing spacing, three forms are shown per combining mark:
+
+<ul>
+    <li> Isolate: Just the spacing character followed by the combining mark, at the start-of-text (e.g. <code>&amp;nbsp;[mark]</code>)</li>
+    <li> Packed: A letter from the same script surrounding the combining mark-and-spacing combination on both sides (e.g. <code>a&amp;nbsp;[mark]a</code>)</li>
+    <li> Space: Same as the above, but the letters are separated by a space (e.g. <code>a &amp;nbsp;[mark] a</code>)</li>
+</ul>
+
+
+<table border="1px solid black" style="border-collapse: collapse">
+    <thead><tr><th rowspan=2>Type</th> <th colspan=3>Right vowel</th> <th colspan=3>Left-and-right vowel</th> <th colspan=3>Jophola</th><th colspan=3>Acute accent</th></tr>
+    <tr> <th>isolate</th><th>packed</th><th>space</th><th>isolate</th><th>packed</th><th>space</th><th>isolate</th><th>packed</th><th>space</th><th>isolate</th><th>packed</th><th>space</th></tr></thead>
+    <tbody id=tbody>
+        <tr><td>Isolate</td><td colspan=3 lang=bn>া</td> <td colspan=3 lang=bn>ো</td> <td colspan=3 lang=bn>্য</td><td colspan=3 lang=en>́</td></tr>
+
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+function textcell(tr, text, lang) {
+        let td = document.createElement("td");
+        td.lang = lang;
+        td.innerHTML = text;
+        tr.appendChild(td);
+}
+function inputcell(tr, text, lang) {
+        let td = document.createElement("td");
+        td.lang = lang;
+        let input = document.createElement("input");
+        input.size = 7;
+        input.style.width = "50px"
+        td.appendChild(input);
+        input.value = text;
+        tr.appendChild(td);
+}
+function createCells(tr, space, element, create) {
+        create(tr, `${space}${element}`, "bn");
+        create(tr, `ক${space}${element}ক`, "bn");
+        create(tr, `ক ${space}${element} ক`, "bn");
+}
+
+    let tries = [["nbsp (&amp;nbsp;)", "&nbsp;"],
+                 ["nbsp (&amp;#xa0;)", "&#xa0;"],
+                 ["nbsp literal", "\xa0"],
+                 ["space", " "],
+                 ["nnbsp", "&#x202f;"],
+                 ["zwnbsp", "&#xfeff;"],
+                 ["dotted circle", "&#x25cc;"]];
+    let single = "া";
+    let double = "ো";
+    let jophola = "্য";
+    let accent = "́";
+
+    for (t of tries) {
+        let tr = document.createElement("tr");
+        let td = document.createElement("td");
+        td.innerHTML = t[0];
+        tr.appendChild(td);
+        createCells(tr, t[1], single, textcell);
+        createCells(tr, t[1], double, textcell);
+        createCells(tr, t[1], jophola, textcell);
+        
+        textcell(tr, `${t[1]}${accent}`);
+        textcell(tr, `a${t[1]}${accent}a`);
+        textcell(tr, `a ${t[1]}${accent} a`);
+
+        document.getElementById("tbody").appendChild(tr);
+    }
+    let tr = document.createElement("tr");
+    let td = document.createElement("td");
+    td.innerHTML = "input";
+    tr.appendChild(td);
+    createCells(tr, "\xa0", single, inputcell);
+    createCells(tr, "\xa0", double, inputcell);
+    createCells(tr, "\xa0", jophola, inputcell);
+    inputcell(tr, `\xa0${accent}`, "en");
+    inputcell(tr, `a\xa0${accent}a`, "en");
+    inputcell(tr, `a \xa0${accent} a`, "en");
+    document.getElementById("tbody").appendChild(tr);
+
+</script>
+</body>
+</html>

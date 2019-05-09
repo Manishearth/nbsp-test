@@ -17,7 +17,7 @@ Shows rendering of combining marks with various spacing marks in various conditi
     <li> The simple <code>U+09BE BENGALI VOWEL SIGN AA</code> (&nbsp;&#x09be;)</li>
     <li> The two-part <code>U+09CB BENGALI VOWEL SIGN O</code>(&nbsp;&#x09cb;)</li>
     <li> A jophola, which is a special postfix form of <code>U+09AF BENGALI LETTER YA</code> created by preceding it with a <code>U+09CD BENGALI SIGN VIRAMA</code> (&nbsp;&#x09cd;&#x09af;)</li>
-    <li> A normal acute accent, which has no spacing of its own <code>U+0301 COMBINING ACUTE ACCENT</code></li>
+    <li> A normal acute accent, which has no spacing of its own <code>U+0301 COMBINING ACUTE ACCENT</code> (&nbsp;&#x0301;)</li>
 </ul>
 
 For each way of doing spacing, three forms are shown per combining mark:
@@ -28,12 +28,14 @@ For each way of doing spacing, three forms are shown per combining mark:
     <li> Space: Same as the above, but the letters are separated by a space (e.g. <code>a &amp;nbsp;[mark] a</code>)</li>
 </ul>
 
+The start-of-text row shows the elements without any other code points around them. This is malformed, I think.
+<br><br>
 
 <table border="1px solid black" style="border-collapse: collapse">
-    <thead><tr><th rowspan=2>Type</th> <th colspan=3>Right vowel</th> <th colspan=3>Left-and-right vowel</th> <th colspan=3>Jophola</th><th colspan=3>Acute accent</th></tr>
+    <thead><tr><th rowspan=2>Type</th> <th colspan=3>Right vowel</th> <th colspan=3>Left-and-right vowel</th> <th colspan=3>Jophola</th><th colspan=3>Acute accent (nonspacing)</th></tr>
     <tr> <th>isolate</th><th>packed</th><th>space</th><th>isolate</th><th>packed</th><th>space</th><th>isolate</th><th>packed</th><th>space</th><th>isolate</th><th>packed</th><th>space</th></tr></thead>
     <tbody id=tbody>
-        <tr><td>Isolate</td><td colspan=3 lang=bn>া</td> <td colspan=3 lang=bn>ো</td> <td colspan=3 lang=bn>্য</td><td colspan=3 lang=en>́</td></tr>
+        <tr><td>start-of-text<br>(no spaces)</td><td colspan=3 lang=bn>া</td> <td colspan=3 lang=bn>ো</td> <td colspan=3 lang=bn>্য</td><td colspan=3 lang=en>́</td></tr>
 
     </tbody>
 </table>
@@ -91,7 +93,7 @@ function createCells(tr, space, element, create) {
     }
     let tr = document.createElement("tr");
     let td = document.createElement("td");
-    td.innerHTML = "input";
+    td.innerHTML = "input with<br>nbsp literal";
     tr.appendChild(td);
     createCells(tr, "\xa0", single, inputcell);
     createCells(tr, "\xa0", double, inputcell);
